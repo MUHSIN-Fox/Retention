@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_retention_release_wizard_form" model="ir.ui.view">
+        <field name="name">retention.release.wizard.form</field>
+        <field name="model">retention.release.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Release Retention">
+                <sheet>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="project_name"/>
+                        <field name="release_amount"/>
+                        <field name="release_date"/>
+                        <field name="journal_id"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_release_retention" string="Release Retention" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_retention_release" model="ir.actions.act_window">
+        <field name="name">Release Retention</field>
+        <field name="res_model">retention.release.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_retention_release"
+              name="Release Retention"
+              parent="account.menu_finance_receivables"
+              action="action_retention_release"
+              sequence="50"/>
+</odoo>

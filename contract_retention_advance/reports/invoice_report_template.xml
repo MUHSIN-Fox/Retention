@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_contract_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='total']" position="before">
+            <t t-if="o.is_contract_invoice">
+                <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 0.375rem; padding: 15px; margin-bottom: 20px; font-size: 13px;">
+                    <div style="font-weight: bold; margin-bottom: 10px; font-size: 14px; border-bottom: 1px solid #dee2e6; padding-bottom: 5px;">
+                        Contract Retention &amp; Advance Summary:
+                    </div>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                            <td style="padding: 4px 0;">Work Done (Untaxed):</td>
+                            <td style="text-align: right; padding: 4px 0;"><span t-field="o.amount_untaxed"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0;">VAT (15%):</td>
+                            <td style="text-align: right; padding: 4px 0;"><span t-field="o.amount_tax"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0; color: #dc3545;">Less Retention (<t t-esc="o.retention_percentage"/>%):</td>
+                            <td style="text-align: right; padding: 4px 0; color: #dc3545;"><span t-field="o.retention_amount"/></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 4px 0; color: #dc3545;">Less Advance Recovery:</td>
+                            <td style="text-align: right; padding: 4px 0; color: #dc3545;"><span t-field="o.advance_recovery_amount"/></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #dee2e6; font-weight: bold;">
+                            <td style="padding-top: 8px;">Amount to Pay Now:</td>
+                            <td style="text-align: right; padding-top: 8px;">
+                                <span t-esc="o.amount_total - o.retention_amount - o.advance_recovery_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
