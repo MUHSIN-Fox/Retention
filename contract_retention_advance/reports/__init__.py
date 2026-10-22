@@ -1,1 +1,1 @@
-from . import contract_report
+from . import retention_report_wizard

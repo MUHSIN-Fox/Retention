@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_retention_release_wizard,retention.release.wizard,model_retention_release_wizard,base.group_user,1,1,1,1
-access_contract_report_wizard,contract.report.wizard,model_contract_report_wizard,base.group_user,1,1,1,1
+access_retention_advance_report_wizard,retention.advance.report.wizard access,model_retention_advance_report_wizard,account.group_account_user,1,1,1,1

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_inherit_contract" model="ir.ui.view">
+        <field name="name">account.move.view.form.inherit.contract</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add contract invoice checkbox near the top/header area -->
+            <xpath expr="//sheet/group" position="before">
+                <div class="alert alert-info" role="alert" invisible="move_type not in ('out_invoice', 'out_refund')">
+                    <field name="is_contract_invoice" widget="boolean_toggle"/>
+                    <label for="is_contract_invoice" string="Enable Contract Retention &amp; Advance Recovery"
+                           class="fw-bold ms-2"/>
+                </div>
+            </xpath>
+
+            <!-- Add Contract & Retention tab inside the invoice notebook -->
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="Contract &amp; Retention" name="contract_retention_page"
+                      invisible="not is_contract_invoice">
+                    <group>
+                        <group string="Retention Details">
+                            <field name="project_name" readonly="1"/>
+                            <field name="retention_percentage"/>
+                            <field name="retention_amount"/>
+                            <field name="retention_account_id" options="{'no_create': True}"/>
+                            <field name="handover_date"/>
+                        </group>
+                        <group string="Advance Recovery Details">
+                            <field name="advance_payment_id" options="{'no_create': True}"/>
+                            <field name="advance_recovery_type" widget="radio"/>
+                            <field name="advance_recovery_percentage"
+                                   invisible="advance_recovery_type != 'percentage'"/>
+                            <field name="advance_recovery_amount"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='amount_residual']" position="before">
+                <field name="retention_amount"
+                       invisible="not is_contract_invoice or retention_amount == 0.0"
+                       class="oe_subtotal_footer_separator"
+                       string="Retention (-)"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

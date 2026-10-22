@@ -16,10 +16,9 @@
         - Custom QWeb invoice print format.
     """,
     'author': 'MUHSIN',
-    'depends': ['account', 'sale', 'l10n_sa'],
+    'depends': ['account', 'sale_management', 'l10n_sa','l10n_sa_edi'],
     'data': [
         'security/ir.model.access.csv',
-        'data/account_tag_data.xml',
         'views/res_config_settings_views.xml',
         'views/account_move_views.xml',
         'wizards/retention_release_wizard_views.xml',

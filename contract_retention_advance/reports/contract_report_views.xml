@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="action_contract_report_pdf" model="ir.actions.report">
-        <field name="name">Customer Contract Ledger</field>
-        <field name="model">account.move</field>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">contract_retention_advance.report_contract_ledger_document</field>
-        <field name="report_file">contract_retention_advance.report_contract_ledger_document</field>
-        <field name="binding_model_id" ref="account.model_account_move"/>
-        <field name="binding_type">report</field>
+
+    <!-- Wizard Form View -->
+    <record id="view_retention_advance_report_wizard_form" model="ir.ui.view">
+        <field name="name">retention.advance.report.wizard.form</field>
+        <field name="model">retention.advance.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Retention &amp; Advance Balance Report">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Retention &amp; Advance Report</h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="as_at_date"/>
+                            <field name="project_name" placeholder="e.g. Sales Order / Project Name"/>
+                        </group>
+                        <group>
+                            <field name="partner_ids" widget="many2many_tags" placeholder="All Customers"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Export to Excel" name="action_export_excel" type="object" class="btn-primary" icon="fa-file-excel-o"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
     </record>
 
-    <template id="report_contract_ledger_document">
-        <t t-call="web.external_layout">
-            <div class="page" style="font-family: Arial, sans-serif; font-size: 13px; color: #333333; margin-top: 20px;">
-                <h2 style="font-size: 20px; font-weight: bold; margin-bottom: 20px; color: #212529;">Customer Contract Ledger</h2>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                    <thead>
-                        <tr style="background-color: #f8f9fa;">
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: left; font-weight: bold;">Customer</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: left; font-weight: bold;">Project / Order</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: left; font-weight: bold;">Invoice #</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: left; font-weight: bold;">Date</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: right; font-weight: bold;">Untaxed Work Done</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: right; font-weight: bold;">Retention Held</th>
-                            <th style="border-bottom: 2px solid #dee2e6; padding: 8px; text-align: right; font-weight: bold;">Advance Recovered</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="docs" t-as="o">
-                            <tr>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: left;"><span t-field="o.partner_id.name"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: left;"><span t-field="o.project_name"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: left;"><span t-field="o.name"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: left;"><span t-field="o.invoice_date"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: right;"><span t-field="o.amount_untaxed"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: right;"><span t-field="o.retention_amount"/></td>
-                                <td style="border-bottom: 1px solid #dee2e6; padding: 8px; text-align: right;"><span t-field="o.advance_recovery_amount"/></td>
-                            </tr>
-                        </t>
-                    </tbody>
-                </table>
-            </div>
-        </t>
-    </template>
+    <!-- Window Action -->
+    <record id="action_retention_advance_report_wizard" model="ir.actions.act_window">
+        <field name="name">Retention &amp; Advance Report</field>
+        <field name="res_model">retention.advance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu Item under Invoicing / Accounting Reporting -->
+    <menuitem id="menu_retention_advance_report"
+              name="Retention &amp; Advance Report"
+              parent="account.menu_finance_reports"
+              action="action_retention_advance_report_wizard"
+              sequence="25"/>
+
 </odoo>
